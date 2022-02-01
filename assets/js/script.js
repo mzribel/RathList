@@ -25,41 +25,55 @@ function convertToObject(localObj) {
 }
 
 function displayChecklist() {
-  document.getElementById("demo").className = "demo";
-  if (Object.keys(tasks).length == 0) {
+    displayDemo()
+    if (Object.keys(tasks).length == 0) {
     document.getElementById("title").innerHTML = "Nothing to see here!";
-  } else {
-      document.getElementById("title").innerHTML = tasks[0];
-      for (let i = 1; i < (Object.keys(tasks).length); i++){
-          document.getElementById("demo").classList.add("demo");
-          var list = document.createElement("div");
-          var elem = document.createElement("input");
-          elem.type = "checkbox";
-          elem.id = i;
-          elem.name = tasks[i].name;
-          elem.checked = tasks[i].checked;
-          var label = document.createElement("label");
-          label.for = elem.name;
-          label.classList.add('chbx_container');
-          label.innerHTML = elem.name;
-          var span = document.createElement("span");
-          span.classList.add("chbx_checkmark");
-          label.appendChild(elem);
-          label.appendChild(span);
-          list.appendChild(label);
-          document.getElementById("demo").appendChild(list);
-      }
-  }
+    } else {
+        document.getElementById("title").innerHTML = tasks[0];
+        for (let i = 1; i < (Object.keys(tasks).length); i++){
+            document.getElementById("demo").classList.add("demo");
+            var list = document.createElement("div");
+            var elem = document.createElement("input");
+            elem.type = "checkbox";
+            elem.id = `check_${i}`;
+            elem.name = tasks[i].name;
+            elem.setAttribute('onclick', `updateCheck('check_${i}')`);
+            elem.checked = tasks[i].checked;
+            var label = document.createElement("label");
+            label.for = elem.name;
+            label.classList.add('chbx_container');
+            label.innerHTML = elem.name;
+            var span = document.createElement("span");
+            span.classList.add("chbx_checkmark");
+            label.appendChild(elem);
+            label.appendChild(span);
+            list.appendChild(label);
+            document.getElementById("demo").appendChild(list);
+        }
+    }
+}
+
+function updateCheck(prout) {
+    elem = document.getElementById(prout);
+    number = prout.slice(-1);
+    tasks[number].checked = elem.checked;
+    localStorage.clear();
+    localStorage.setItem('tasklist_1', JSON.stringify(tasks));
+}
+
+function clickEdit() {
+    if (document.getElementById("demo").style.display == "flex") {
+        displayDemo2(); openEdit();
+    } else if (document.getElementById("demo2").style.display == "flex") {
+        displayDemo(); displayChecklist();
+    }
 }
 
 function openEdit() {
-    if (document.getElementById("demo").classList.contains("updateContainer") == false) {
+        console.log("coucou");
         if (Object.keys(tasks).length != 0) {
-            document.getElementById('displayAdd').style.display = "none";
             document.getElementById("title").innerHTML = tasks[0];
-            document.getElementById("demo").innerHTML = "";
-            document.getElementById("demo").classList.remove("demo");
-            document.getElementById("demo").classList.add("updateContainer");
+            document.getElementById("demo2").innerHTML = "";
             var form = document.createElement("form"); form.id = "updateForm"; form.onsubmit="";
             for (let i = 1; i < (Object.keys(tasks).length); i++){
                 var uCell = document.createElement("div"); uCell.classList.add("updateCell");
@@ -72,7 +86,6 @@ function openEdit() {
                 checkbox.checked = tasks[i].checked; checkbox.id = `checkEdit_${i}`; checkbox.name = checkbox.id;
                 var checkSpan = document.createElement("span"); checkSpan.classList.add("chbx_checkmark");
                 var label = document.createElement("label"); label.classList.add("chbx_container");
-
                 label.appendChild(checkbox); label.appendChild(checkSpan); tCell.appendChild(label);
                 var text = document.createElement("input"); text.type = "text"; text.classList.add("editText"); 
                 text.placeholder="Test"; text.style.width = "100%"; 
@@ -86,14 +99,8 @@ function openEdit() {
             submit.setAttribute('onclick', 'editTasklist(this.form)');
             submit.id = "updateSubmit"; submit.value = "UPDATE"; 
             form.appendChild(submit); 
-            document.getElementById("demo").appendChild(form);
+            document.getElementById("demo2").appendChild(form);
         }
-    }
-    else {
-        document.getElementById("demo").innerHTML = "";
-        document.getElementById('displayAdd').style.display = null;
-        displayChecklist();
-    }
 }
 
 function editTasklist(form) {
@@ -108,8 +115,8 @@ function editTasklist(form) {
     localStorage.clear();
     localStorage.setItem('tasklist_1', JSON.stringify(tasks));
     console.log(document.getElementById("demo"));
-    document.getElementById("demo").innerHTML = "";
-    displayChecklist();
+    document.getElementById("demo2").innerHTML = "";
+    displayDemo(); displayChecklist();
 
 }
 
@@ -141,6 +148,20 @@ function deleteTask(nb) {
     document.getElementById("demo").innerHTML = "";
     openEdit();
     
+}
+
+function displayDemo() {
+    document.getElementById("demo").style.display = "flex";
+    document.getElementById("demo2").style.display = 'none';
+    document.getElementById("displayAdd").style.display = "flex";
+    document.getElementById("demo2").innerHTML = "";
+}
+function displayDemo2() {
+    document.getElementById("demo").style.display = 'none';
+    document.getElementById("demo2").style.display = "flex";
+    document.getElementById("displayAdd").style.display = "none";
+    document.getElementById("hiddenDiv").style.display = "none";
+    document.getElementById("demo").innerHTML = "";
 }
 
 function ShowHide(divId) {

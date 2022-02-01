@@ -2,17 +2,17 @@ let tasks = {};
 
 function storageInit() {
     if (localStorage.length == 0) {
-        let temp = {
-            "title": "List 1:",
-            1: {
+        let temp = [
+            "List 1:",
+            {
                 "name":"Task 1",
                 "checked":false,
             },
-            2: {
+            {
                 "name":"Task 2",
                 "checked":true,
             }
-        }
+        ]
         localStorage.setItem('tasklist_1', JSON.stringify(temp));
     }
     tasks = convertToObject('tasklist_1');
@@ -28,8 +28,8 @@ function displayChecklist() {
   if (Object.keys(tasks).length == 0) {
     document.getElementById("title").innerHTML = "Nothing to see here!";
   } else {
-      document.getElementById("title").innerHTML = tasks["title"];
-      for (let i = 1; i < Object.keys(tasks).length; i++){
+      document.getElementById("title").innerHTML = tasks[0];
+      for (let i = 1; i < (Object.keys(tasks).length); i++){
           document.getElementById("demo").classList.add("demo");
           var list = document.createElement("div");
           var elem = document.createElement("input");
@@ -53,15 +53,16 @@ function displayChecklist() {
 
 function openEdit() {
     if (Object.keys(tasks).length != 0) {
-        document.getElementById("title").innerHTML = "Ca marche!";
+        document.getElementById("title").innerHTML = tasks[0];
         document.getElementById("demo").innerHTML = "";
         document.getElementById("demo").classList.remove("demo");
         document.getElementById("demo").classList.add("updateContainer");
         var form = document.createElement("form"); form.id = "updateForm"; form.onsubmit="";
-        for (let i = 1; i < Object.keys(tasks).length; i++){
+        for (let i = 1; i < (Object.keys(tasks).length); i++){
             var uCell = document.createElement("div"); uCell.classList.add("updateCell");
             var delSpan = document.createElement("span"); delSpan.innerHTML = "x";
-            var delButton = document.createElement("div"); delButton.classList.add("deleteButton");
+            var delButton = document.createElement("div"); delButton.classList.add("deleteButton"); delButton.id = `delButton${i}`;
+            delButton.setAttribute('onclick', `deleteTask(${i})`);
             delButton.appendChild(delSpan); uCell.appendChild(delButton);
             var tCell = document.createElement("div"); tCell.classList.add("taskCell");
             var checkbox = document.createElement("input"); checkbox.type = "checkbox"; checkbox.classList.add("editCheck"); 
@@ -87,7 +88,7 @@ function openEdit() {
 }
 
 function editTasklist(form) {
-    for (let i = 1; i < Object.keys(tasks).length; i++){
+    for (let i = 1; i < (Object.keys(tasks).length); i++){
         if (form[`textEdit_${i}`].value != "") {
             tasks[i] = {
                 "name": form[`textEdit_${i}`].value,
@@ -104,7 +105,7 @@ function editTasklist(form) {
 }
 
 function addTask(form) {
-    let length = Object.keys(tasks).length
+    let length = Object.keys(tasks).length;
     if (form.addInput.value !== "") {
         tasks[length] = {
             "name": form.addInput.value,
@@ -118,6 +119,19 @@ function addTask(form) {
         document.getElementById("demo").innerHTML = "";
         displayChecklist();
     }
+}
+
+function deleteTask(nb) {
+    number = nb;
+    tasks.splice(nb, 1);
+    localStorage.clear();
+    console.log(tasks);
+    localStorage.setItem('tasklist_1', JSON.stringify(tasks));
+    console.log(localStorage)
+
+    document.getElementById("demo").innerHTML = "";
+    openEdit();
+    
 }
 
 function ShowHide(divId) {

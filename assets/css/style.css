@@ -44,14 +44,7 @@ h2 {
 .pfp:hover > img {
     border: solid 2px cyan;
 }
-
-#displaySettings {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-}
-
-.settingsButton {
+.buttons {
     background-color: transparent;
     border-radius: 10%;
     border: 2px solid white;
@@ -65,58 +58,29 @@ h2 {
     color: white;
     text-align: center;
     transition: ease-in 0.3s;
+    margin-right: 12px;
 }
-.settingsButton svg {
+.buttons:hover {
+    background-color: #363636;
+    cursor: pointer;
+    color: cyan;
+    border: 2px solid cyan;
+}
+.buttons:hover > span > svg {
+    fill: cyan;
+}
+.buttons span {
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    vertical-align: baseline;
+    padding: 0 1px 2px 0;
+}
+.buttons svg {
     fill: white;
     padding-right: 1px;
     transition: ease-in 0.3s;
 }
-.settingsButton:hover {
-    background-color: #363636;
-    cursor: pointer;
-    color: cyan;
-    border: 2px solid cyan;
-}
-.settingsButton:hover > span > svg {
-    fill: cyan;
-}
-.settingsButton span {
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    vertical-align: baseline;
-    padding: 0 1px 2px 0;
-}
-
-.addButton {
-    background-color: transparent;
-    border-radius: 10%;
-    border: 2px solid white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 20px;
-    width: 20px;
-    font-weight:700;
-    font-size: 20px;
-    color: white;
-    text-align: center;
-    transition: ease-in 0.3s;
-}
-.addButton:hover {
-    background-color: #363636;
-    cursor: pointer;
-    color: cyan;
-    border: 2px solid cyan;
-}
-.addButton span {
-    font-size: 25px;
-    display: flex;
-    align-items: center;
-    vertical-align: baseline;
-    padding: 0 1px 2px 0;
-}
-
 
 .demo {
     display: flex;

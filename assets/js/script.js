@@ -74,7 +74,7 @@ function openEdit() {
         if (Object.keys(tasks).length != 0) {
             document.getElementById("title").innerHTML = tasks[0];
             document.getElementById("demo2").innerHTML = "";
-            var form = document.createElement("form"); form.id = "updateForm"; form.onsubmit="";
+            var form = document.createElement("form"); form.id = "updateForm"; form.onsubmit=""; form.method = "get";
             for (let i = 1; i < (Object.keys(tasks).length); i++){
                 var uCell = document.createElement("div"); uCell.classList.add("updateCell");
                 var delSpan = document.createElement("span"); delSpan.innerHTML = "x";

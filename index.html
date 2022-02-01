@@ -26,14 +26,14 @@
                 <div id="demo"></div>
                 <div id="demo2" class="updateContainer" style="display: none;"></div>
                 <div id="hiddenDiv" style="display: none;">
-                    <form id="addTask" action="" method="get">
+                    <form id="addTask" action="" method="post" onsubmit="addTask(event)">
                         <div style="display: flex;">
                             <label class="chbx_container">
                                 <input type="checkbox" id="addChecked" name="addChecked">
                                 <span class="chbx_checkmark"></span>                            
                             </label>                                
                             <input type="text" class="addInput" id="addInput" placeholder="Add a new task here" name="addInput" value="">
-                            <input type="button" id="addSubmit" value="Add Task:" onClick="addTask(this.form)">
+                            <input type="submit" id="addSubmit" value="Add Task:">
                         </div> 
                     </form>
                 </div>

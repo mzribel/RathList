@@ -4,8 +4,9 @@
         <title>Check List</title>
         <link rel="shortcut icon" type="image/png" href="assets/img/fav.png"/>
         <link rel="stylesheet" href="assets/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body onload="storageInit(), displayChecklist()">
+    <body onload="storageInit(), displayChecklist()" class="theme-dark">
         <header>
             <div class="nav">
                 <img src="assets/img/logo.png" height="35px" alt="">
@@ -22,7 +23,7 @@
         </header>
         <main>
             <div class="main_container">
-                <h2 id="title"></h2>
+                <h1 id="title" class="title"></h2>
                 <div id="demo"></div>
                 <div id="demo2" class="updateContainer" style="display: none;"></div>
                 <div id="hiddenDiv" style="display: none;">

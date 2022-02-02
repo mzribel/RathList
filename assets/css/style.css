@@ -1,15 +1,30 @@
+
+.theme-dark {
+    --color-background: #181818;
+    --color-primary: cyan;
+    --color-secondary: white;
+}
+
+.theme-red {
+     --color-background: #181818;
+     --color-primary: red;
+     --color-secondary: white;
+
+}
+
 body {
     margin: 0;
-    background-color: #181818;
-    color: white;
+    background-color: var(--color-background);
+    color: var(--color-secondary);
     font-size: 20px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-h2 {
+.title {
     margin: 0;
     font-size: 30px;
     margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .main_container {
@@ -19,10 +34,11 @@ h2 {
 .nav {
     width: auto;
     height: 60px;
-    background-color: #181818;
-    color: white;
+    background-color: var(--color-background);
+    color: var(--color-secondary);
     font-size: 40px;
-    border-bottom: 2px cyan solid;
+    border-bottom: 2px solid;
+    border-color: var(--color-primary);
     padding: 0px 20px;
     display: flex;
     justify-content: space-between;
@@ -36,18 +52,20 @@ h2 {
 }
 .pfp img{
     border-radius: 50%;
-    border: solid 2px white;
+    border: solid 2px ;
+    border-color: var(--color-secondary);
     transition: ease-in 0.3s;
     display: flex;
     align-items: center;
 }
 .pfp:hover > img {
-    border: solid 2px cyan;
+    border: solid 2px;
+    border-color: var(--color-primary);
 }
 .buttons {
     background-color: transparent;
     border-radius: 10%;
-    border: 2px solid white;
+    border: 2px solid var(--color-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,7 +73,7 @@ h2 {
     width: 20px;
     font-weight:700;
     font-size: 20px;
-    color: white;
+    color: var(--color-secondary);
     text-align: center;
     transition: ease-in 0.3s;
     margin-right: 12px;
@@ -63,11 +81,12 @@ h2 {
 .buttons:hover {
     background-color: #363636;
     cursor: pointer;
-    color: cyan;
-    border: 2px solid cyan;
+    color: var(--color-primary);
+    border: 2px solid;
+    border-color: var(--color-primary);
 }
 .buttons:hover > span > svg {
-    fill: cyan;
+    fill: var(--color-primary);
 }
 .buttons span {
     font-size: 25px;
@@ -77,7 +96,7 @@ h2 {
     padding: 0 1px 2px 0;
 }
 .buttons svg {
-    fill: white;
+    fill: var(--color-secondary);
     padding-right: 1px;
     transition: ease-in 0.3s;
 }
@@ -124,7 +143,8 @@ h2 {
     width: 20px;
     background-color: transparent;
     border-radius: 10%;
-    border: solid 2px cyan;
+    border: solid 2px;
+    border-color: var(--color-primary);
 }
 .chbx_container:hover input ~ .chbx_checkmark {
     background-color: #363636;
@@ -145,7 +165,8 @@ h2 {
     top: 2px;
     width: 5px;
     height: 9px;
-    border: solid cyan;
+    border: solid;
+    border-color: var(--color-primary);
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -158,16 +179,26 @@ h2 {
     padding: 0px 0 0 25px;
     position: relative;
 }
-input[type=text] {
+.small_input_txt {
     background-color: transparent;
-    color: white;
+    color: var(--color-secondary);
     border: 0;
-    border-bottom: 2px solid cyan;
-    color: white;
+    border-bottom: 2px solid;
+    border-color: var(--color-primary);
+    color: var(--color-secondary);
     font-size: 20px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-
 }
+.big_input_txt {
+    background-color: transparent;
+    color: var(--color-secondary);
+    border: 0;
+    border-bottom: 2px solid;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
 input[type=text]:focus {
     outline: none;
 }
@@ -180,9 +211,9 @@ input[type=text]:focus {
 input[type=button], input[type=submit] {
     padding: 0px 10px;
     background-color: rgba(0, 255, 255, 0.2);
-    border: 2px solid cyan;
-    color: white;
-    border: 2px solid white;
+    border: 2px solid;
+    border-color: var(--color-primary);
+    color: var(--color-secondary);
     border-radius: 10%;
     height: 30px;
     font-size: 16px;
@@ -192,7 +223,7 @@ input[type=button], input[type=submit] {
 }
 input[type=button]:hover, input[type=submit]:hover {
     background-color: green;
-    border: 2px solid white;
+    border: 2px solid var(--color-secondary);
 
 }
 
@@ -215,7 +246,7 @@ input[type=button]:hover, input[type=submit]:hover {
 .deleteButton {
     background-color: transparent;
     border-radius: 10%;
-    border: 2px solid white;
+    border: 2px solid var(--color-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,7 +254,7 @@ input[type=button]:hover, input[type=submit]:hover {
     min-width: 20px;
     font-weight:700;
     font-size: 20px;
-    color: white;
+    color: var(--color-secondary);
     text-align: center;
     transition: ease-in 0.3s;
     margin-right: 11px;

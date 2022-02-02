@@ -75,6 +75,9 @@ function openEdit() {
         document.getElementById("title").innerHTML = tasks[0];
         document.getElementById("demo2").innerHTML = "";
         var form = document.createElement("form"); form.id = "updateForm"; form.setAttribute('onsubmit', 'editTasklist(event)'); form.setAttribute('method', 'post');
+        var titleEdit = document.createElement("input"); titleEdit.type = "text"; titleEdit.classList.add("editText", "title", "big_input_txt");
+        titleEdit.value = tasks[0]; titleEdit.id = 'titleEdit'; titleEdit.name = titleEdit.id;
+        form.appendChild(titleEdit);
         for (let i = 1; i < (Object.keys(tasks).length); i++){
             var uCell = document.createElement("div"); uCell.classList.add("updateCell");
             var delSpan = document.createElement("span"); delSpan.innerHTML = "x";
@@ -87,7 +90,7 @@ function openEdit() {
             var checkSpan = document.createElement("span"); checkSpan.classList.add("chbx_checkmark");
             var label = document.createElement("label"); label.classList.add("chbx_container");
             label.appendChild(checkbox); label.appendChild(checkSpan); tCell.appendChild(label);
-            var text = document.createElement("input"); text.type = "text"; text.classList.add("editText"); 
+            var text = document.createElement("input"); text.type = "text"; text.classList.add("editText", "small_input_txt"); 
             text.placeholder="Test"; text.style.width = "100%"; 
             text.value = tasks[i].name; text.id = `textEdit_${i}`; text.name = text.id;
             tCell.appendChild(text);
@@ -106,6 +109,9 @@ function editTasklist(event) {
     event.preventDefault();
     let form = event.currentTarget;
     console.log(form);
+    if (form['titleEdit'].value != "") {
+        tasks[0] = form['titleEdit'].value;
+    }
     for (let i = 1; i < (Object.keys(tasks).length); i++){
         if (form[`textEdit_${i}`].value != "") {
             tasks[i] = {
@@ -159,6 +165,7 @@ function displayDemo() {
     document.getElementById("demo2").style.display = 'none';
     document.getElementById("displayAdd").style.display = "flex";
     document.getElementById("demo2").innerHTML = "";
+    document.getElementById("title").style.display = "block"
 }
 function displayDemo2() {
     document.getElementById("demo").style.display = 'none';
@@ -167,6 +174,7 @@ function displayDemo2() {
     document.getElementById("hiddenDiv").style.display = "none";
     document.getElementById("demo").innerHTML = "";
     document.getElementById("hiddenDiv").innerHTML = "";
+    document.getElementById("title").style.display = "none"
 }
 
 function ShowHide(divId) {

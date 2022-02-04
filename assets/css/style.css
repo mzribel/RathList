@@ -1,55 +1,57 @@
+/* ----------------------------------- */
+/* ------------- GENERAL ------------- */
+/* ----------------------------------- */
 
-.theme-dark {
-    --color-background: #181818;
+.colortheme_0 {
+    --color-background: #2d313d;
+    --color-background_2: #353744;
     --color-primary: cyan;
     --color-secondary: white;
 }
 
-.theme-red {
-     --color-background: #181818;
-     --color-primary: red;
-     --color-secondary: white;
-
-}
-
-body {
+html, body {
+    height: 100%;
     margin: 0;
-    background-color: var(--color-background);
-    color: var(--color-secondary);
     font-size: 20px;
+    background-color: var(--color-background);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
 }
 
-.title {
-    margin: 0;
-    font-size: 30px;
-    margin-bottom: 20px;
-    font-weight: bold;
+.box {
+    display: flex;
+    flex-flow: column;
 }
 
-.main_container {
-    padding: 20px;
-}
+/* ----------------------------------- */
+/* -------------- HEADER ------------- */
+/* ----------------------------------- */
 
-.nav {
+.box .header {
+    flex: 0 1 58px;
+    min-height: 58px;
     width: auto;
-    height: 60px;
     background-color: var(--color-background);
     color: var(--color-secondary);
     font-size: 40px;
     border-bottom: 2px solid;
     border-color: var(--color-primary);
-    padding: 0px 20px;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 6;
 }
+/* .nav_left {
 
-.left {
+} */
+
+.nav_right {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
+
 .pfp img{
     border-radius: 50%;
     border: solid 2px ;
@@ -58,10 +60,14 @@ body {
     display: flex;
     align-items: center;
 }
-.pfp:hover > img {
+.pfp img:hover {
     border: solid 2px;
     border-color: var(--color-primary);
 }
+/* ----------------------------------- */
+/* ---------- CUSTOM BUTTONS --------- */
+/* ----------------------------------- */
+
 .buttons {
     background-color: transparent;
     border-radius: 10%;
@@ -101,20 +107,129 @@ body {
     transition: ease-in 0.3s;
 }
 
-.demo {
+/* ----------------------------------- */
+/* ---------- DELETE BUTTONS --------- */
+/* ----------------------------------- */
+
+.delete_button {
+    background-color: transparent;
+    border-radius: 10%;
+    border: 2px solid var(--color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    min-width: 20px;
+    font-weight:700;
+    font-size: 20px;
+    color: var(--color-secondary);
+    text-align: center;
+    transition: ease-in 0.3s;
+    margin-right: 11px;
+    opacity: 0;
+
+}
+
+.delete_button span {
+    padding: 0 1px 5px 0;
+}
+.delete_button:hover {
+    background-color: #363636;
+    cursor: pointer;
+    color: red;
+    border: 2px solid red;
+
+}
+
+/* ----------------------------------- */
+/* ---------- SUBMIT BUTTON ---------- */
+/* ----------------------------------- */
+
+input[type=button], input[type=submit] {
+    padding: 0px 10px;
+    background-color: rgba(0, 255, 255, 0.2);
+    border: 2px solid;
+    border-color: var(--color-primary);
+    color: var(--color-secondary);
+    border-radius: 10%;
+    height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: ease-in 0.15s;
+
+}
+input[type=button]:hover, input[type=submit]:hover {
+    background-color: green;
+    border: 2px solid var(--color-secondary);
+}
+#updateSubmit {
+    float: right;
+    margin-top: 15px;
+}
+
+/* ----------------------------------- */
+/* --------------- MAIN -------------- */
+/* ----------------------------------- */
+
+.box .main  {
+    flex: 1 1 auto;
+    display: flex;
+}
+.title {
+    margin: 0;
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+.main_content {
+    margin-left: 25%;
+    padding: 20px;
+}
+.display_main {
     display: flex;
     flex-direction: column;  
 }
-.demo div {
+.display_main div {
     padding: 0 0 0 25px;
     display: inline-flex;
     align-items: center;
 }
+#emptylist {
+    padding-left: 60px;
+    margin: 0;
+    display: none;
+}
+#display_add {
+    padding: 0px 0 0 25px;
+    position: relative;
+}
+.addform_txt {
+    margin-left: -1px;
+}
+
+/* ----------------------------------- */
+/* ------------ SIDE BAR ------------- */
+/* ----------------------------------- */
+
+.side-bar {
+    margin-top: 60px;
+    height: 100vh;
+    width: 25%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 5;
+    background-color: var(--color-background_2);
+}
+
+.side-list {
+    padding: 20px;
+}
 
 
-
-/* ______________________________________ */
-
+/* ----------------------------------- */
+/* -------- CUSTOM CHECKBOXES -------- */
+/* ----------------------------------- */
 
 .chbx_container {
     display: block;
@@ -135,7 +250,7 @@ body {
     width: 0;
 }
 
-.chbx_checkmark {
+.checkmark {
     position: absolute;
     top: 0;
     left: 0;
@@ -146,21 +261,21 @@ body {
     border: solid 2px;
     border-color: var(--color-primary);
 }
-.chbx_container:hover input ~ .chbx_checkmark {
+.chbx_container:hover input ~ .checkmark {
     background-color: #363636;
 }
-.chbx_container input:checked ~ .chbx_checkmark {
+.chbx_container input:checked ~ .checkmark {
     background-color: transparent;
 }
-.chbx_checkmark:after {
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
-.chbx_container input:checked ~ .chbx_checkmark:after {
+.chbx_container input:checked ~ .checkmark:after {
     display: block;
 }
-.chbx_container .chbx_checkmark:after {
+.chbx_container .checkmark:after {
     left: 6px;
     top: 2px;
     width: 5px;
@@ -173,12 +288,10 @@ body {
     transform: rotate(45deg);
 }
 
-/* __________________________________ */
+/* ----------------------------------- */
+/* -------- CUSTOM TEXT INPUT -------- */
+/* ----------------------------------- */
 
-#display_add {
-    padding: 0px 0 0 25px;
-    position: relative;
-}
 .small_input_txt {
     background-color: transparent;
     color: var(--color-secondary);
@@ -199,42 +312,14 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-#p {
-    padding-left: 60px;
-    margin: 0;
-    display: none;
-}
 
 input[type=text]:focus {
     outline: none;
 }
 
-#updateSubmit {
-    float: right;
-    margin-top: 15px;
-}
-
-input[type=button], input[type=submit] {
-    padding: 0px 10px;
-    background-color: rgba(0, 255, 255, 0.2);
-    border: 2px solid;
-    border-color: var(--color-primary);
-    color: var(--color-secondary);
-    border-radius: 10%;
-    height: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: ease-in 0.15s;
-
-}
-input[type=button]:hover, input[type=submit]:hover {
-    background-color: green;
-    border: 2px solid var(--color-secondary);
-
-}
-
-
-/* _________________________________________________ */
+/* ----------------------------------- */
+/* ----------- UPDATE DIVS ----------- */
+/* ----------------------------------- */
 
 .updateContainer {
     width: 500px;
@@ -249,40 +334,13 @@ input[type=button]:hover, input[type=submit]:hover {
     width: 100%;
     margin-bottom: 12px;
 }
-.deleteButton {
-    background-color: transparent;
-    border-radius: 10%;
-    border: 2px solid var(--color-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 20px;
-    min-width: 20px;
-    font-weight:700;
-    font-size: 20px;
-    color: var(--color-secondary);
-    text-align: center;
-    transition: ease-in 0.3s;
-    margin-right: 11px;
-    opacity: 0;
 
-}
-.updateCell:hover > .deleteButton {
+.updateCell:hover > .delete_button {
     opacity: 1;
 }
-.deleteButton span {
-    padding: 0 1px 5px 0;
-}
-.deleteButton:hover {
-    background-color: #363636;
-    cursor: pointer;
-    color: red;
-    border: 2px solid red;
-}
+
+
 .taskCell {
     width: inherit;
     display: flex;
-}
-.addInput {
-    margin-left: -1px;
 }

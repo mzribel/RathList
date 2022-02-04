@@ -1,205 +1,270 @@
+// --------------------------------------------//
+// -- DECLARES VARIABLES & STORAGE FUNCTIONS - // 
+// --------------------------------------------//
+
+
 var display_main = document.getElementById("display_main");
 var display_edit = document.getElementById("display_edit");
 var display_add = document.getElementById("display_add");
 var h1 = document.getElementById("title");
 let tasklist = {};
-let current_tl = "";
+let current_tl = '0';
 
+let temp = [
+    [
+        "List 1:",
+        {
+            "name":"Task 1",
+            "checked":false,
+        },
+        {
+            "name":"Task 2",
+            "checked":true,
+        }
+    ],
+    [ "List 2:",
+        {
+            "name":"Task 1",
+            "checked":false,
+        },
+        {
+            "name":"Task 2",
+            "checked":true,
+        }
+    ]
+]; 
+
+function storageInit() {
+    if (localStorage.length == 0) {
+            console.log(temp);
+            storageUpdate(temp);
+            current_tl = 1; currentUpdate();
+    }
+    tasklist = convertToObject('tasklist');
+    current_tl = `${convertToObject('current_tl')}`;
+}
 function storageUpdate(element) {
     localStorage.setItem('tasklist', JSON.stringify(element));
 }
 function currentUpdate() {
     localStorage.setItem('current_tl', JSON.stringify(current_tl));
 }
-function storageInit() {
-    if (localStorage.length == 0) {
-        let temp = [
-            [
-                "List 1:",
-                {
-                    "name":"Task 1",
-                    "checked":false,
-                },
-                {
-                    "name":"Task 2",
-                    "checked":true,
-                }
-            ]
-            // [ "List 2:",
-            //     {
-            //         "name":"Task 1",
-            //         "checked":false,
-            //     },
-            //     {
-            //         "name":"Task 2",
-            //         "checked":true,
-            //     }
-            // ]
-        ]; 
-            console.log(temp);
-            storageUpdate(temp);
-            current_tl = 0; currentUpdate();
-    }
-    tasklist = convertToObject('tasklist');
-}
+
 function convertToObject(storedObj) {
     var storedObj = localStorage.getItem(storedObj);
     var localObj = JSON.parse(storedObj);
     return localObj;
 }
 
+// --------------------------------------------//
+// ------- OPEN / CLOSE DISPLAY & EDIT-------- // 
+// --------------------------------------------//
+
 function displayChecklist() {
     displayMain();
+    // No tasklist at all.
     if (tasklist.length == 0) {
     h1.innerHTML = "Nothing to see here!";
-    } else if (tasklist[0].length == 1) {
-        h1.innerHTML = tasklist[0][0];
+    // Selected tasklist is empty.
+    } else if (tasklist[`${current_tl}`].length == 1) {
+        h1.innerHTML = tasklist[`${current_tl}`][0];
         document.getElementById("p").style.display = 'block';
-        document.getElementById("p").innerHTML = "zebi";
-
+    // Generate tasks of selected tasklist.
     } else {
-        h1.innerHTML = tasklist[0][0];
-        for (let i = 1; i < tasklist[0].length; i++){
-            display_main.classList.add("demo");
+        h1.innerHTML = tasklist[`${current_tl}`][0];
+        for (let i = 1; i < tasklist[`${current_tl}`].length; i++){
+            // Creates parent div for each task.
             var list = document.createElement("div");
-            var elem = document.createElement("input");
-            elem.type = "checkbox";
-            elem.id = `check_${i}`;
-            elem.name = tasklist[0][i].name;
-            elem.setAttribute('onclick', `updateCheck('check_${i}')`);
-            elem.checked = tasklist[0][i].checked;
-            var label = document.createElement("label");
-            label.for = elem.name;
-            label.classList.add('chbx_container');
-            label.innerHTML = elem.name;
-            var span = document.createElement("span");
-            span.classList.add("chbx_checkmark");
-            label.appendChild(elem);
-            label.appendChild(span);
-            list.appendChild(label);
+            // Creates input + attributes.
+            var task = document.createElement("input");
+            task.type = "checkbox";
+            task.id = `check_${i}`;
+            task.name = tasklist[`${current_tl}`][i].name;
+            task.setAttribute('onclick', `updateCheck('check_${i}')`);
+            task.checked = tasklist[`${current_tl}`][i].checked;
+            // Creates checkbox container + attributes.
+            var chbx_container = document.createElement("label");
+            chbx_container.for = task.name;
+            chbx_container.classList.add('chbx_container');
+            chbx_container.innerHTML = task.name;
+            // Creates checkmark for checkbox.
+            var checkmark = document.createElement("span");
+            // Appends all elements to each other and to main div, display_main.
+            checkmark.classList.add("checkmark");
+            chbx_container.appendChild(task);
+            chbx_container.appendChild(checkmark);
+            list.appendChild(chbx_container);
             display_main.appendChild(list);
         }
     }
 }
 
-function updateCheck(prout) {
-    elem = document.getElementById(prout);
-    number = prout.slice(-1);
-    tasklist[0][number].checked = elem.checked;
-    localStorage.clear();
-    localStorage.setItem('tasklist', JSON.stringify(tasklist));
-}
-
-
-
 function openEdit() {
-    display_edit.innerHTML = "";
-    console.log("coucou");
-    if (tasklist[0].length != 0) {
-        h1.innerHTML = "";
+    displayEdit();
+    if (tasklist[`${current_tl}`].length != 0) {
+        // Creates global form and title edit text input.
         var form = document.createElement("form"); form.id = "updateForm"; form.setAttribute('onsubmit', 'editTasklist(event)'); form.setAttribute('method', 'post');
         var titleEdit = document.createElement("input"); titleEdit.type = "text"; titleEdit.classList.add("editText", "title", "big_input_txt");
-        titleEdit.value = tasklist[0][0]; titleEdit.id = 'titleEdit'; titleEdit.name = titleEdit.id;
+        titleEdit.value = tasklist[`${current_tl}`][0]; titleEdit.id = 'titleEdit'; titleEdit.name = titleEdit.id;
+        // Appends title edit text input to global form.
         form.appendChild(titleEdit);
-        for (let i = 1; i < tasklist[0].length; i++){
-            var uCell = document.createElement("div"); uCell.classList.add("updateCell");
-            var delSpan = document.createElement("span"); delSpan.innerHTML = "x";
-            var delButton = document.createElement("div"); delButton.classList.add("deleteButton"); delButton.id = `delButton${i}`;
+        // Generates each task edit input.
+        for (let i = 1; i < tasklist[`${current_tl}`].length; i++){
+            // Creates parent div for each task edit.
+            var updateCell = document.createElement("div"); updateCell.classList.add("updateCell"); 
+
+            // Generates individual delete button and appends to parent div.
+            var delMark = document.createElement("span"); delMark.innerHTML = "x";
+            var delButton = document.createElement("div"); delButton.classList.add("delete_button"); delButton.id = `delButton${i}`;
             delButton.setAttribute('onclick', `deleteTask(${i})`);
-            delButton.appendChild(delSpan); uCell.appendChild(delButton);
-            var tCell = document.createElement("div"); tCell.classList.add("taskCell");
+            updateCell.appendChild(delButton); delButton.appendChild(delMark); 
+
+            // Creates child div for each task text input.
+            var taskCell = document.createElement("div"); taskCell.classList.add("taskCell");
+
+            // Creates checkbox container, checkbox and checkmark.
+            var chbx_container = document.createElement("label"); chbx_container.classList.add("chbx_container");
             var checkbox = document.createElement("input"); checkbox.type = "checkbox"; checkbox.classList.add("editCheck"); 
-            checkbox.checked = tasklist[0][i].checked; checkbox.id = `checkEdit_${i}`; checkbox.name = checkbox.id;
-            var checkSpan = document.createElement("span"); checkSpan.classList.add("chbx_checkmark");
-            var label = document.createElement("label"); label.classList.add("chbx_container");
-            label.appendChild(checkbox); label.appendChild(checkSpan); tCell.appendChild(label);
+            checkbox.checked = tasklist[`${current_tl}`][i].checked; checkbox.id = `checkEdit_${i}`; checkbox.name = checkbox.id;
+            var checkmark = document.createElement("span"); checkmark.classList.add("checkmark");
+
+            // Appends each to child div.
+            chbx_container.appendChild(checkbox); chbx_container.appendChild(checkmark); taskCell.appendChild(chbx_container);
+
+            // Creates text input for task name edit.
             var text = document.createElement("input"); text.type = "text"; text.classList.add("editText", "small_input_txt"); 
             text.placeholder="Test"; text.style.width = "100%"; 
-            text.value = tasklist[0][i].name; text.id = `textEdit_${i}`; text.name = text.id;
-            tCell.appendChild(text);
-        
-            uCell.appendChild(tCell); 
-            form.appendChild(uCell);
+            text.value = tasklist[`${current_tl}`][i].name; text.id = `textEdit_${i}`; text.name = text.id;
+
+            // Appends text input to child div, child div to parent div and parent div to form.
+            taskCell.appendChild(text); updateCell.appendChild(taskCell); form.appendChild(updateCell);
         }
+
+        // Generates submit button and appends it to form.
         var submit = document.createElement("input"); submit.type = "submit"; 
         submit.id = "updateSubmit"; submit.value = "UPDATE"; 
         form.appendChild(submit); 
+
+        // Appends form to main div.
         display_edit.appendChild(form);
     }
 }
+
+// --------------------------------------------//
+// ------ ADD / DELETE / EDIT FUNCTIONS ------ // 
+// --------------------------------------------//
 
 function editTasklist(event) {
     event.preventDefault();
     let form = event.currentTarget;
     console.log(form);
     if (form['titleEdit'].value != "") {
-        tasklist[0][0] = form['titleEdit'].value;
+        tasklist[`${current_tl}`][0] = form['titleEdit'].value;
     }
-    for (let i = 1; i < tasklist[0].length; i++){
+    for (let i = 1; i < tasklist[`${current_tl}`].length; i++){
         if (form[`textEdit_${i}`].value != "") {
-            tasklist[0][i] = {
+            tasklist[`${current_tl}`][i] = {
                 "name": form[`textEdit_${i}`].value,
                 "checked": form[`checkEdit_${i}`].checked,
             }
         }
     }
-    localStorage.clear();
-    localStorage.setItem('tasklist', JSON.stringify(tasklist));
-    console.log(display_main);
-    displayMain(); displayChecklist();
+    storageUpdate(tasklist);
+    displayMain(); displayChecklist(); changeList();
 
 }
-
 function addTask(event) {
     event.preventDefault();
     let form = event.currentTarget;
-    let length = tasklist[0].length;
-    if (form.addInput.value !== "") {
-        tasklist[0][length] = {
-            "name": form.addInput.value,
-            "checked": form.addChecked.checked,
+    let length = tasklist[`${current_tl}`].length;
+    if (form.addform_txt.value !== "") {
+        tasklist[`${current_tl}`][length] = {
+            "name": form.addform_txt.value,
+            "checked": form.addform_checked.checked,
         }
         storageUpdate(tasklist);
-        document.getElementById("addInput").value = "";
+        document.getElementById("addform_txt").value = "";
         displayChecklist(); displayAdd();
     }
 }
-
 function deleteTask(task_id) {
-    tasklist[0].splice(task_id, 1);
+    tasklist[`${current_tl}`].splice(task_id, 1);
     storageUpdate(tasklist);
-    displayEdit(); openEdit();
+    openEdit();
 }
+
+function updateCheck(prout) {
+    task = document.getElementById(prout);
+    id = prout.slice(-1);
+    tasklist[`${current_tl}`][id].checked = task.checked;
+    storageUpdate(tasklist);
+}
+// --------------------------------------------//
+// -------- DISPLAYS / HIDE MAIN DIVS -------- // 
+// --------------------------------------------//
 
 function displayMain() {
     h1.style.display = "block"
     display_main.style.display = "flex"; display_main.innerHTML = "";
     display_edit.style.display = "none"; display_edit.innerHTML = "";
     display_add.style.display = 'none';
-    document.getElementById("button_add").style.display = "flex";
+    document.getElementById("add_button").style.display = "flex";
 }
 function displayEdit() {
     h1.style.display = "none"; h1.innerHTML = "";
     display_main.style.display = 'none';    display_main.innerHTML = "";
     display_edit.style.display = "flex"; display_edit.innerHTML = "";
-    document.getElementById("button_add").style.display = "none";
+    document.getElementById("add_button").style.display = "none";
     display_add.style.display = "none";
-    document.getElementById("p").style.display = 'none';
+    document.getElementById("emptylist").style.display = 'none';
 }
 function displaySwitch() {
     if (display_main.style.display == "flex") {
-        displayEdit(); openEdit();
+        openEdit();
     } else if (display_edit.style.display == "flex") {
-        displayMain(); displayChecklist();
+        displayChecklist();
     }
 }
 function displayAdd() {
     if (display_add.style.display == 'none') {
         display_add.style.display = 'block';
-        document.getElementById("p").style.display = 'none';
+        document.getElementById("emptylist").style.display = 'none';
 
     }
     else {
-        displayMain(); displayChecklist();
+        displayChecklist();
     }
 }
+
+
+function changeList() {
+    document.getElementById('changeList').innerHTML = "";
+    if (tasklist.length != 0) {
+        for (let i = 0; i < tasklist.length; i++) {
+            nb_element = document.createElement("p"); id=`list_id${i}`; 
+            nb_element.setAttribute('onclick', `changeCurrent(${i})`);
+            nb_element.innerHTML = tasklist[i][0]; document.getElementById('changeList').appendChild(nb_element);
+        }
+    }
+}
+
+function changeCurrent(id) {
+    current_tl = `${id}`;
+    currentUpdate();
+    displayChecklist();
+
+}
+
+// // TESTING JSON DOWNLOAD
+
+// function download(content, fileName, contentType) {
+//     const a = document.createElement("a");
+//     const file = new Blob([content], { type: contentType });
+//     a.href = URL.createObjectURL(file);
+//     a.download = fileName;
+//     a.click();
+// }
+
+// function onDownload() {
+//     download(JSON.stringify(tasklist), "json-file-name.json", "text/plain");
+// }

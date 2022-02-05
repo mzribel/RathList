@@ -42,9 +42,10 @@ html, body {
     align-items: center;
     z-index: 6;
 }
-/* .nav_left {
-
-} */
+.nav_left {
+    display: flex;
+    align-items: center;
+}
 
 .nav_right {
     display: flex;
@@ -106,6 +107,31 @@ html, body {
     padding-right: 1px;
     transition: ease-in 0.3s;
 }
+
+.deployable_list {
+    color: white;
+    background-color: transparent;
+    border-width: 0;
+    border-color: transparent;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.5);
+    width: 100%;
+    cursor: pointer;
+}
+
+.deployable_list span {
+    padding-left: 10px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+
+} 
 
 /* ----------------------------------- */
 /* ---------- DELETE BUTTONS --------- */
@@ -213,6 +239,7 @@ input[type=button]:hover, input[type=submit]:hover {
 
 .side-bar {
     margin-top: 60px;
+    padding-top: 10px;
     height: 100vh;
     width: 25%;
     top: 0;
@@ -223,8 +250,22 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 
 .side-list {
-    padding: 20px;
+    padding: 0px 20px;
 }
+.changeList p:hover {
+    cursor: pointer;
+    color: lightgrey;
+}
+
+a, a:visited, a:focus, a:active {
+    color: var(--color-secondary);
+    text-decoration: none;
+}
+a:hover {
+    color: lightgrey;
+    text-decoration: none;
+}
+
 
 
 /* ----------------------------------- */

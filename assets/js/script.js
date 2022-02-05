@@ -12,24 +12,53 @@ let current_tl = '0';
 
 let temp = [
     [
-        "List 1:",
+        "Improving RathList!",
         {
-            "name":"Task 1",
+            "name":"Dynamic and editable tasklists",
+            "checked":true,
+        },
+        {
+            "name":"Local Storage",
+            "checked":true,
+        },
+        {
+            "name":"Color themes",
             "checked":false,
         },
         {
-            "name":"Task 2",
-            "checked":true,
-        }
+            "name":"Responsive design",
+            "checked":false,
+        },
+        {
+            "name":"Import/export of JSON files.",
+            "checked":false,
+        },
+
     ],
-    [ "List 2:",
+    [ "Things I'd like to learn/master",
         {
-            "name":"Task 1",
+            "name":"C",
+            "checked":true,
+        },
+        {
+            "name":"C++",
             "checked":false,
         },
         {
-            "name":"Task 2",
+            "name":"Python",
             "checked":true,
+        },
+        {
+            "name":"HTML/CSS",
+            "checked":true,
+        },
+        {
+            "name":"Javascript",
+            "checked":true,
+        },
+        {
+            "name":"JS frameworks",
+            "checked":false,
         }
     ]
 ]; 
@@ -225,6 +254,24 @@ function displaySwitch() {
         displayChecklist();
     }
 }
+function Display_Hide_List() {
+    document.getElementById("changeList").innerHTML = "";
+    if (document.getElementById("changeList").style.display == 'none') {
+        document.getElementById("changeList").style.display = "block";
+        changeList();
+    }
+    else {
+        document.getElementById("changeList").style.display = "none";
+    }
+}
+function Display_Hide_Links() {
+    if (document.getElementById("links").style.display == 'none') {
+        document.getElementById("links").style.display = 'block';
+    } else {
+        document.getElementById("links").style.display = 'none';
+    }
+}
+
 function displayAdd() {
     if (display_add.style.display == 'none') {
         display_add.style.display = 'block';
@@ -243,7 +290,8 @@ function changeList() {
         for (let i = 0; i < tasklist.length; i++) {
             nb_element = document.createElement("p"); id=`list_id${i}`; 
             nb_element.setAttribute('onclick', `changeCurrent(${i})`);
-            nb_element.innerHTML = tasklist[i][0]; document.getElementById('changeList').appendChild(nb_element);
+            nb_element.innerHTML = tasklist[i][0];
+            document.getElementById('changeList').appendChild(nb_element);
         }
     }
 }
@@ -255,16 +303,16 @@ function changeCurrent(id) {
 
 }
 
-// // TESTING JSON DOWNLOAD
+// TESTING JSON DOWNLOAD
 
-// function download(content, fileName, contentType) {
-//     const a = document.createElement("a");
-//     const file = new Blob([content], { type: contentType });
-//     a.href = URL.createObjectURL(file);
-//     a.download = fileName;
-//     a.click();
-// }
+function download(content, fileName, contentType) {
+    const a = document.createElement("a");
+    const file = new Blob([content], { type: contentType });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+}
 
-// function onDownload() {
-//     download(JSON.stringify(tasklist), "json-file-name.json", "text/plain");
-// }
+function onDownload() {
+    download(JSON.stringify(tasklist), "tasklist.json", "text/plain");
+}

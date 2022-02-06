@@ -126,7 +126,6 @@ function displayChecklist() {
             list.appendChild(chbx_container);
             display_main.appendChild(list);
         }
-        countChecked(tasklist[`${current_tl}`], parent_div="oui");
     }
 }
 

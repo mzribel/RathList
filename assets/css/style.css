@@ -109,27 +109,30 @@ html, body {
 }
 
 .deployable_list {
-    color: white;
     background-color: transparent;
     border-width: 0;
     border-color: transparent;
-    text-align: left;
     display: flex;
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid rgba(0, 255, 255, 0.5);
-    width: 100%;
     cursor: pointer;
+    width: 100%;
+}
+.tasks {
+    justify-content: space-between;
 }
 
 .deployable_list span {
     padding-left: 10px;
+    color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 15px;
     font-weight: bold;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    text-align: left;
 
 } 
 
@@ -251,7 +254,7 @@ input[type=button]:hover, input[type=submit]:hover {
 .side-list {
     padding: 10px 20px 0;
 }
-.changeList div:hover {
+.lists div:hover {
     cursor: pointer;
     color: lightgrey;
 }

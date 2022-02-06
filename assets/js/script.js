@@ -100,6 +100,7 @@ function displayChecklist() {
         document.getElementById("p").style.display = 'block';
     // Generate tasks of selected tasklist.
     } else {
+        let checked_nb = 0;
         h1.innerHTML = tasklist[`${current_tl}`][0];
         for (let i = 1; i < tasklist[`${current_tl}`].length; i++){
             // Creates parent div for each task.
@@ -125,6 +126,7 @@ function displayChecklist() {
             list.appendChild(chbx_container);
             display_main.appendChild(list);
         }
+        countChecked(tasklist[`${current_tl}`], parent_div="oui");
     }
 }
 
@@ -211,14 +213,14 @@ function addTask(event) {
             "name": form.addform_txt.value,
             "checked": form.addform_checked.checked,
         }
-        storageUpdate(tasklist);
+        storageUpdate(tasklist); countChecked(tasklist[`${current_tl}`], `list_checked_${current_tl}`, `list_${current_tl}`);
         document.getElementById("addform_txt").value = "";
         displayChecklist(); displayAdd();
     }
 }
 function deleteTask(task_id) {
     tasklist[`${current_tl}`].splice(task_id, 1);
-    storageUpdate(tasklist);
+    storageUpdate(tasklist); countChecked(tasklist[`${current_tl}`], `list_checked_${current_tl}`, `list_${current_tl}`);
     openEdit();
 }
 
@@ -226,8 +228,11 @@ function updateCheck(prout) {
     task = document.getElementById(prout);
     id = prout.slice(-1);
     tasklist[`${current_tl}`][id].checked = task.checked;
-    storageUpdate(tasklist);
+    console.log(id);
+    storageUpdate(tasklist); countChecked(tasklist[`${current_tl}`], `list_checked_${current_tl}`, `list_${current_tl}`);
 }
+
+
 // --------------------------------------------//
 // -------- DISPLAYS / HIDE MAIN DIVS -------- // 
 // --------------------------------------------//
@@ -283,18 +288,49 @@ function displayAdd() {
     }
 }
 
+// --------------------------------------------//
+// ---------- TASKLISTS ON LEFT BAR ---------- // 
+// --------------------------------------------//
 
 function changeList() {
     document.getElementById('changeList').innerHTML = "";
     if (tasklist.length != 0) {
         for (let i = 0; i < tasklist.length; i++) {
-            nb_element = document.createElement("p"); id=`list_id${i}`; 
-            nb_element.setAttribute('onclick', `changeCurrent(${i})`);
-            nb_element.innerHTML = tasklist[i][0];
-            document.getElementById('changeList').appendChild(nb_element);
+
+            // Creates parent div to both list name and check count.
+            var parent_element = document.createElement("div"); parent_element.id = `list_${i}`;
+            parent_element.classList.add("lists");
+            // Generates list names.
+            var list_name = document.createElement("div"); list_name.id=`list_id${i}`; 
+            list_name.setAttribute('onclick', `changeCurrent(${i})`);
+            list_name.classList.add("list_ids");
+            list_name.innerHTML = tasklist[i][0];
+            // Appends elements.
+            parent_element.appendChild(list_name);
+            document.getElementById('changeList').append(parent_element);
+            // Generates count check.
+            countChecked(tasklist[i], `list_checked_${i}`, `list_${i}`);
         }
     }
 }
+
+function countChecked(tasklist_id, child_div, parent_div) {
+    console.log(tasklist_id, child_div, parent_div);
+    let count_checked = 0;
+    for (let j = 1; j < tasklist_id.length; j++) {
+        if (tasklist_id[j].checked) {
+            count_checked++;
+        }
+    }
+    if (document.getElementById(child_div) == null) {
+        var list_checked = document.createElement("div"); list_checked.id = child_div;
+        list_checked.innerHTML = `(${count_checked}/${(tasklist_id.length -1)})`; list_checked.classList.add("list_checks");
+        document.getElementById(parent_div).appendChild(list_checked);
+    } else {
+        var list_checked = document.getElementById(child_div);
+        list_checked.innerHTML = `(${count_checked}/${(tasklist_id.length -1)})`; list_checked.classList.add("list_checks");
+    }
+} 
 
 function changeCurrent(id) {
     current_tl = `${id}`;

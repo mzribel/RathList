@@ -239,7 +239,6 @@ input[type=button]:hover, input[type=submit]:hover {
 
 .side-bar {
     margin-top: 60px;
-    padding-top: 10px;
     height: 100vh;
     width: 25%;
     top: 0;
@@ -250,11 +249,17 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 
 .side-list {
-    padding: 0px 20px;
+    padding: 10px 20px 0;
 }
-.changeList p:hover {
+.changeList div:hover {
     cursor: pointer;
     color: lightgrey;
+}
+.list_checks {
+    display: none;
+}
+.changeList div:hover .list_checks{
+    display: block;
 }
 
 a, a:visited, a:focus, a:active {
@@ -266,7 +271,16 @@ a:hover {
     text-decoration: none;
 }
 
-
+.lists {
+    padding: 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+.list_ids {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
 
 /* ----------------------------------- */
 /* -------- CUSTOM CHECKBOXES -------- */

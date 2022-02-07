@@ -106,12 +106,12 @@
 
 
             <div class="side-bar">
-                <div class="side-list">
+                <div class="side_bar_menu">
 
-                    <div class="changeList">
-                        <button type="button" class="deployable_list tasks" onclick="Display_Hide_List()">
-                            <div style="display: flex; align-items: center;"><svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="#777777" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg>
-                            <span class="deployable_list_header">All tasklists:</span></div>
+                    <div class="side_bar_tasklists">
+                        <button type="button" class="deployable_btn" onclick="Display_Hide_List()">
+                            <div><svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="#777777" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg></div>
+                            <span class="overflow">All tasklists:</span>
                             <div style="display: flex; align-items: center; float: right;">
                                 <!-- <svg style="fill: white;"
                                 version="1.1"
@@ -133,53 +133,61 @@
                             </div>
                         </button>
                     </div>
-                    <div id="changeList" class="changeList" style="padding-left: 25px; font-size: 15px; display: block;">
+                    <div id="side_bar_tasklists" class="side_bar_tasklists" style="padding-left: 25px; font-size: 15px; display: block;">
                     
                     </div>
                 </div>
 
-                <div class="side-list">
+                <div class="side_bar_menu">
 
-                    <div class="changeLinks">
-                        <button type="button" class="deployable_list" onclick="Display_Hide_Links()">
-                            <div style="display: flex; align-items: center;"><svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="#777777" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg></div>
-                            <span class="deployable_list_header">Follow Me!</span>
-                        
+                    <div class="side_bar_socials">
+                        <button type="button" class="deployable_btn" onclick="Display_Hide_Links()">
+                            <div><svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="#777777" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg></div>
+                            <span class="overflow">Follow Me!</span>
                         </button>
                     </div>
-                    <div id="links" class="links" style="padding-left: 25px; font-size: 15px; display: none;">
+                    <div id="socials" class="socials" style="padding-left: 25px; font-size: 15px; display: none;">
                             <div class="list_ids lists"><a href="https://twitter.com/RathGate">Twitter</a></div>
-                            <div class="list ids lists"><a href="https://github.com/RathGate">Github</a></div>
+                            <div class="list_ids lists"><a href="https://github.com/RathGate">Github</a></div>
                     </div>
                 </div>
 
             </div>
-            <div class="main_content">
-                <h1 id="title" class="title"></h2>
-                <p id="emptylist"><img src='assets/img/help.png' alt=''></p>
-                <div id="display_main" class="display_main"></div>
-                <div id="display_edit" class="updateContainer" style="display: none;"></div>
-                <div id="display_add" style="display: none;">
-                    <form id="addTask" action="" method="post" onsubmit="addTask(event)">
-                        <div style="display: flex;">
-                            <label class="chbx_container">
-                                <input type="checkbox" id="addform_checked" name="addform_checked">
-                                <span class="checkmark"></span>                            
-                            </label>                                
-                            <input type="text" id="addform_txt" name="addform_txt" class="addform_txt small_input_txt" placeholder="Add a new task here" value="">
-                            <input type="submit" id="addform_submit" value="Add Task:">
-                        </div> 
-                    </form>
+            <div style="margin-left: 25%; margin-top: 60px; width: 75%;">
+                <div class="main_content">
+                    <h1 id="title" class="title"></h2>
+                    <div id="order_by" class="subtitle">Order by: 
+                        <a onclick=''>default</a> -
+                        <a onclick='orderBy(tasklist[`${current_tl}`], "checked", "desc")'>to do</a> - 
+                        <a onclick='orderBy(tasklist[`${current_tl}`], "checked", "asc")'>done</a> - 
+                        <a onclick='orderBy(tasklist[`${current_tl}`], "name", "asc")'>alphabetical</a> - 
+                        <a onclick='orderBy(tasklist[`${current_tl}`], "name", "desc")'>anti-alphabetical</a>.
+                    </div>
+                    <p id="emptylist"><img src='assets/img/help.png' alt=''></p>
+                    <div id="display_main" class="display_main"></div>
+                    <div id="display_edit" class="updateContainer" style="display: none;"></div>
+                    <div id="display_add" style="display: none;">
+                        <form id="addTask" action="" method="post" onsubmit="addTask(event)">
+                            <div style="display: flex;">
+                                <label class="chbx_container">
+                                    <input type="checkbox" id="addform_checked" name="addform_checked">
+                                    <span class="checkmark"></span>                            
+                                </label>                                
+                                <input type="text" id="addform_txt" name="addform_txt" class="addform_txt small_input_txt" placeholder="Add a new task here" value="">
+                                <input type="submit" id="addform_submit" value="Add Task:">
+                            </div> 
+                        </form>
+                    </div>
+                    <!-- <button onclick="onDownload()">Download</button> -->
+
+                    
                 </div>
-                <!-- <button onclick="onDownload()">Download</button> -->
-
-                
             </div>
-            <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-            <!-- Generator: Adobe Illustrator 18.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-            
-
         </main>
         <script type="text/javascript" src="assets/js/script.js"></script>
     </body>
+
+
+    <svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="white" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg></div>
+
 </html>

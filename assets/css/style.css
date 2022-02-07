@@ -30,7 +30,7 @@ html, body {
 .box .header {
     flex: 0 1 58px;
     min-height: 58px;
-    width: auto;
+    width: 100%;
     background-color: var(--color-background);
     color: var(--color-secondary);
     font-size: 40px;
@@ -41,6 +41,9 @@ html, body {
     justify-content: space-between;
     align-items: center;
     z-index: 6;
+    top: 0;
+    left: 0;
+    position: fixed;
 }
 .nav_left {
     display: flex;
@@ -49,8 +52,9 @@ html, body {
 
 .nav_right {
     display: flex;
-    justify-content: flex-end;
+    float: right;
     align-items: center;
+    margin-right: 35px;
 }
 
 .pfp img{
@@ -107,34 +111,6 @@ html, body {
     padding-right: 1px;
     transition: ease-in 0.3s;
 }
-
-.deployable_list {
-    background-color: transparent;
-    border-width: 0;
-    border-color: transparent;
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(0, 255, 255, 0.5);
-    cursor: pointer;
-    width: 100%;
-}
-.tasks {
-    justify-content: space-between;
-}
-
-.deployable_list span {
-    padding-left: 10px;
-    color: white;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 15px;
-    font-weight: bold;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    text-align: left;
-
-} 
 
 /* ----------------------------------- */
 /* ---------- DELETE BUTTONS --------- */
@@ -211,7 +187,6 @@ input[type=button]:hover, input[type=submit]:hover {
     font-weight: bold;
 }
 .main_content {
-    margin-left: 25%;
     padding: 20px;
 }
 .display_main {
@@ -251,18 +226,19 @@ input[type=button]:hover, input[type=submit]:hover {
     background-color: var(--color-background_2);
 }
 
-.side-list {
+.side_bar_menu {
     padding: 10px 20px 0;
 }
-.lists div:hover {
+.lists .list_ids:hover {
     cursor: pointer;
     color: lightgrey;
 }
 .list_checks {
-    display: none;
-}
-.changeList div:hover .list_checks{
-    display: block;
+    display: flex;
+    vertical-align: baseline;
+    font-size: 10px;
+    color: white;
+    opacity: 50%;
 }
 
 a, a:visited, a:focus, a:active {
@@ -272,18 +248,58 @@ a, a:visited, a:focus, a:active {
 a:hover {
     color: lightgrey;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .lists {
-    padding: 15px 0 0;
+    padding: 11px 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .list_ids {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
+.deployable_btn {
+    background-color: transparent;
+    border-width: 0;
+    border-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.5);
+    cursor: pointer;
+    width: 100%;
+    text-overflow: ellipsis;
+}
+.deployable_btn svg {
+    display: flex;
+    align-items: center;
+}
+.overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+}
+.tasks {
+    justify-content: space-between;
+}
+
+.deployable_btn span {
+    padding-left: 10px;
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left;
+
+} 
+
 
 /* ----------------------------------- */
 /* -------- CUSTOM CHECKBOXES -------- */
@@ -361,6 +377,7 @@ a:hover {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 .big_input_txt {
+    width: inherit;
     background-color: transparent;
     color: var(--color-secondary);
     border: 0;
@@ -381,7 +398,6 @@ input[type=text]:focus {
 
 .updateContainer {
     width: 500px;
-    margin-left: 25px;
 }
 .updateContainer form {
     width: 100%;
@@ -401,4 +417,27 @@ input[type=text]:focus {
 .taskCell {
     width: inherit;
     display: flex;
+}
+
+.order {
+    width: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+}
+
+.subtitle {
+    font-size: 12px;
+    margin-top: -10px; 
+    padding: 0px 35px 20px; 
+    display: flex;
+    justify-content: space-between;
+}
+
+.add_new, .see_all {
+    padding-top: 15px;
+    color: rgb(33, 161, 170);
+    font-size: 12px;
+    font-style: italic;
+    text-align: right;
 }

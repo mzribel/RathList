@@ -7,9 +7,7 @@ var display_main = document.getElementById("display_main");
 var display_edit = document.getElementById("display_edit");
 var display_add = document.getElementById("display_add");
 var h1 = document.getElementById("title");
-let tasklist = {};
-let current_tl = '0';
-let id_number = 0;
+let tasklist = {}; let current_tl = '0'; let id_number = 0;
 
 let temp = [
     [
@@ -79,7 +77,6 @@ function storageUpdate(element) {
 function currentUpdate() {
     localStorage.setItem('current_tl', JSON.stringify(current_tl));
 }
-
 function convertToObject(storedObj) {
     var storedObj = localStorage.getItem(storedObj);
     var localObj = JSON.parse(storedObj);
@@ -90,93 +87,65 @@ function convertToObject(storedObj) {
 // ------- OPEN / CLOSE DISPLAY & EDIT-------- // 
 // --------------------------------------------//
 
-function displayChecklist() {
+function displayChecklist(list=tasklist[`${current_tl}`]) {
     displayMain();
-    // No tasklist at all.
+    let template = temp = '';
+
+    // No tasklist registered.
     if (tasklist.length == 0) {
-    h1.innerHTML = "Nothing to see here!";
-    // Selected tasklist is empty.
-    } else if (tasklist[`${current_tl}`].length == 1) {
-        h1.innerHTML = tasklist[`${current_tl}`][0];
-        document.getElementById("emptylist").style.display = 'block';
-    // Generate tasks of selected tasklist.
-    } else {
-        let checked_nb = 0;
-        h1.innerHTML = tasklist[`${current_tl}`][0];
-        for (let i = 1; i < tasklist[`${current_tl}`].length; i++){
-            // Creates parent div for each task.
-            var list = document.createElement("div");
-            // Creates input + attributes.
-            var task = document.createElement("input");
-            task.type = "checkbox";
-            task.id = `check_${i}`;
-            task.name = tasklist[`${current_tl}`][i].name;
-            task.setAttribute('onclick', `updateCheck('check_${i}')`);
-            task.checked = tasklist[`${current_tl}`][i].checked;
-            // Creates checkbox container + attributes.
-            var chbx_container = document.createElement("label");
-            chbx_container.for = task.name;
-            chbx_container.classList.add('chbx_container');
-            chbx_container.innerHTML = task.name;
-            // Creates checkmark for checkbox.
-            var checkmark = document.createElement("span");
-            // Appends all elements to each other and to main div, display_main.
-            checkmark.classList.add("checkmark");
-            chbx_container.appendChild(task);
-            chbx_container.appendChild(checkmark);
-            list.appendChild(chbx_container);
-            display_main.appendChild(list);
-        }
+        h1.innerHTML = "Nothing to see here!";
+        document.getElementById("add_button").setAttribute("onclick", "openEdit()")
     }
-}
+
+    // Selected tasklist is empty.
+    else if (list.length == 1) {
+        h1.innerHTML = list[0];
+        document.getElementById("emptylist").style.display = 'block'
+        document.getElementById("order_by").style.display = 'none';
+    
+    // Generate tasks of selected tasklist.
+    } else if (list.length > 1) {
+        // Generates container variable.
+        h1.innerHTML = list[0];
+        for (let i = 1; i < list.length; i++){
+            temp = `
+            <div>
+                <label class="chbx_container">${list[i].name}
+                    <input type="checkbox" id="check_${i}" name="${list[i].name}" onclick="updateCheck('check_${i}')" ${list[i].checked ? "checked" : ""}>
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            `;
+        template = template.concat('', temp);
+        }
+    display_main.innerHTML = template;
+    }
+};
 
 function generateAddForm(parent_div, list="") {
-    // Creates parent div for each task edit.
     var updateCell = document.createElement("div"); updateCell.classList.add("updateCell"); updateCell.id = `updateCell_${id_number}`;
-
-    // Generates individual delete button and appends to parent div.
-    var delMark = document.createElement("span"); delMark.innerHTML = "x";
-    var delButton = document.createElement("div"); delButton.classList.add("delete_button"); delButton.id = `delButton${id_number}`;
-    delButton.setAttribute('onclick', `deleteTask(${id_number})`);
-    updateCell.appendChild(delButton); delButton.appendChild(delMark); 
-    
-    // BUTTONS TO CHANGE
-    var order = document.createElement("div"); order.classList.add("order");
-    var plus = document.createElement("a"); plus.innerHTML = "+"; plus.setAttribute("onclick", `invertValues(${id_number}, 'up')`);
-    var moins = document.createElement("a"); moins.innerHTML = "-"; moins.setAttribute("onclick", `invertValues(${id_number}, 'down')`);
-    order.appendChild(plus); order.appendChild(moins); 
-    
-    // Creates child div for each task text input.
-    var taskCell = document.createElement("div"); taskCell.classList.add("taskCell");
-
-    // Creates checkbox container, checkbox and checkmark.
-    var chbx_container = document.createElement("label"); chbx_container.classList.add("chbx_container");
-    var checkbox = document.createElement("input"); checkbox.type = "checkbox"; checkbox.classList.add("check"); 
-    checkbox.id = `checkEdit_${id_number}`; checkbox.name = checkbox.id;
-    var checkmark = document.createElement("span"); checkmark.classList.add("checkmark");
-    
-    // Appends each to child div.
-    chbx_container.appendChild(checkbox); chbx_container.appendChild(checkmark); taskCell.appendChild(chbx_container);
-
-    // Creates text input for task name edit.
-    var text = document.createElement("input"); text.type = "text"; text.classList.add("editText", "small_input_txt", "pouet"); 
-    text.placeholder="Test"; text.style.width = "100%"; 
-    text.id = `textEdit_${id_number}`; text.name = text.id;
-
-    if (list !== "") {
-        text.value = list.name; checkbox.checked = list.checked;
-    } else {
-        text.value = ""; checkbox.checked = false;
-    }
+    let template = `
+    <div class="delete_button" id="delButton${id_number}" onclick="deleteTask(${id_number})">
+        <span>x</span>
+    </div>
+    <div class="taskCell">
+        <label class="chbx_container">
+            <input type="checkbox" class="check" id="checkEdit_${id_number}" name="checkEdit_${id_number}" ${list != "" && list.checked == true ? "checked" : ""}>
+            <span class="checkmark"></span>
+        </label>
+        <input type="text" class="editText small_input_txt pouet" placeholder="Test" id="textEdit_${id_number}" name="textEdit_${id_number}" value="${list != "" ? list.name : ""}" style="width: 100%;">
+        <div class="order">
+            <a onclick="invertValues(${id_number}, 'up')">+</a>
+            <a onclick="invertValues(${id_number}, 'down')">-</a>
+        </div>
+    </div>
+    `; updateCell.innerHTML = template;
 
     // Appends text input to child div, child div to parent div and parent div to form.
-    taskCell.appendChild(text); taskCell.appendChild(order); updateCell.appendChild(taskCell); 
     document.getElementById(parent_div).appendChild(updateCell);
 
     id_number++;
 }
-
-
 function openEdit(list="") {
     console.log(list);
     displayEdit();
@@ -222,7 +191,6 @@ function openEdit(list="") {
     form.appendChild(submit);
 }
 
-
 // --------------------------------------------//
 // ------ ADD / DELETE / EDIT FUNCTIONS ------ // 
 // --------------------------------------------//
@@ -258,8 +226,6 @@ function editTasklist(event, list="") {
     }
     displayMain(); displayChecklist(); changeList();
 }
-
-
 function addTask(event) {
     event.preventDefault();
     let form = event.currentTarget;
@@ -286,15 +252,12 @@ function deleteTasklist(id) {
     }
     displayChecklist(); changeList();
 }
-
 function updateCheck(prout) {
     task = document.getElementById(prout);
     id = prout.slice(-1);
     tasklist[`${current_tl}`][id].checked = task.checked;
     storageUpdate(tasklist); countChecked(tasklist[`${current_tl}`], `list_checked_${current_tl}`, `list_${current_tl}`);
 }
-
-
 
 // --------------------------------------------//
 // -------- DISPLAYS / HIDE MAIN DIVS -------- // 
@@ -341,7 +304,6 @@ function Display_Hide_Links() {
         document.getElementById("socials").style.display = 'none';
     }
 }
-
 function displayAdd() {
     if (display_add.style.display == 'none') {
         display_add.style.display = 'block';
@@ -358,52 +320,29 @@ function displayAdd() {
 // --------------------------------------------//
 
 function changeList() {
-    document.getElementById('side_bar_tasklists').innerHTML = "";
+    document.getElementById('lists').innerHTML = "";
     if (tasklist.length != 0) {
         for (let i = 0; i < tasklist.length; i++) {
-            // Creates parent div to both list name and check count.
-            var parent_element = document.createElement("div"); parent_element.id = `list_${i}`;
-            parent_element.classList.add("lists");
-            // Generates list names.
-            var list_name = document.createElement("div"); list_name.id=`list_id${i}`; 
-            list_name.setAttribute('onclick', `changeCurrent(${i})`);
-            list_name.classList.add("list_ids");
-            list_name.innerHTML = tasklist[i][0];
-            // Appends elements.
-            parent_element.appendChild(list_name);
-            document.getElementById('side_bar_tasklists').append(parent_element);
-            // Generates count check.
-            countChecked(tasklist[i], `list_checked_${i}`, `list_${i}`);
+            temp = `
+            <div id="list_${i}" class="lists">
+                <div id="list_id${i}" onclick="changeCurrent(${i})" class="list_ids">${tasklist[i][0]}</div>
+                <div id="list_checked_${i}" class="list_checks">${countChecked(tasklist[i], `list_checked_${i}`, `list_${i}`)}</div>
+            </div>
+            `;
+            document.getElementById('lists').innerHTML += temp;
         }
     }
-    
-    var add_new = document.createElement("div"); add_new.classList.add("add_new");
-    add_new.setAttribute('onclick', 'openEdit()'); add_new.innerHTML = "Add a new tasklist..."
-    document.getElementById('side_bar_tasklists').appendChild(add_new);
-
-    var see_all = document.createElement("div"); see_all.classList.add("see_all");
-    see_all.setAttribute('onclick', ''); see_all.innerHTML = "See all tasklists..."
-    document.getElementById('side_bar_tasklists').appendChild(see_all);
 
 }
-
-function countChecked(tasklist_id, child_div, parent_div) {
+function countChecked(tasklist_id) {
     let count_checked = 0;
-    for (let j = 1; j < tasklist_id.length; j++) {
-        if (tasklist_id[j].checked) {
+    for (let i = 1; i < tasklist_id.length; i++) {
+        if (tasklist_id[i].checked) {
             count_checked++;
         }
     }
-    if (document.getElementById(child_div) == null) {
-        var list_checked = document.createElement("div"); list_checked.id = child_div;
-        list_checked.innerHTML = `(${count_checked}/${(tasklist_id.length -1)})`; list_checked.classList.add("list_checks");
-        document.getElementById(parent_div).appendChild(list_checked);
-    } else {
-        var list_checked = document.getElementById(child_div);
-        list_checked.innerHTML = `(${count_checked}/${(tasklist_id.length -1)})`; list_checked.classList.add("list_checks");
-    }
+    return `(${count_checked}/${(tasklist_id.length -1)})`;
 } 
-
 function changeCurrent(id) {
     current_tl = `${id}`;
     currentUpdate();
@@ -420,11 +359,9 @@ function download(content, fileName, contentType) {
     a.download = fileName;
     a.click();
 }
-
 function onDownload() {
     download(JSON.stringify(tasklist), "tasklist.json", "text/plain");
 }
-
 
 // _____________________________________________________________________
 
@@ -468,8 +405,6 @@ function orderBy(list=tasklist[`${current_tl}`], value="checked", order="desc") 
     storageUpdate(tasklist); displayChecklist();
     return list;
 }
-
-
 function invertValues(id, direction) {
     if (direction == "up" && id > 1) {
         let temp_checked = document.getElementById(`checkEdit_${id}`).checked;

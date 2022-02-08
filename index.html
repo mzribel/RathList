@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Check List</title>
+        <title>TestList !</title>
         <link rel="shortcut icon" type="image/png" href="assets/img/fav.png"/>
         <link rel="stylesheet" href="assets/css/style.css">        
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -134,7 +134,11 @@
                         </button>
                     </div>
                     <div id="side_bar_tasklists" class="side_bar_tasklists" style="padding-left: 25px; font-size: 15px; display: block;">
-                    
+                        <div id="lists"></div>
+                        <div id="options">
+                            <div class="add_new" onclick="openEdit()">Add a new tasklist...</div>
+                            <div class="see_all" onclick="">See all tasklists...</div>
+                        </div>
                     </div>
                 </div>
 
@@ -157,7 +161,7 @@
                 <div class="main_content">
                     <h1 id="title" class="title"></h2>
                     <div id="order_by" class="subtitle">Order by: 
-                        <a onclick=''>default</a> -
+                        <!-- <a onclick=''>default</a> - -->
                         <a onclick='orderBy(tasklist[`${current_tl}`], "checked", "desc")'>to do</a> - 
                         <a onclick='orderBy(tasklist[`${current_tl}`], "checked", "asc")'>done</a> - 
                         <a onclick='orderBy(tasklist[`${current_tl}`], "name", "asc")'>alphabetical</a> - 

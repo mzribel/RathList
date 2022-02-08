@@ -270,6 +270,7 @@ a:hover {
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid rgba(0, 255, 255, 0.5);
+    transition: ease-in 0.3s;
     cursor: pointer;
     width: 100%;
     text-overflow: ellipsis;
@@ -440,4 +441,13 @@ input[type=text]:focus {
     font-size: 12px;
     font-style: italic;
     text-align: right;
+    cursor: pointer;
+    transition: ease-in 0.1s;
+}
+.add_new:hover, .see_all:hover {
+    color: cyan;
+}
+
+.side_bar_menu:hover > div > .deployable_btn {
+    border-bottom: 1px solid cyan;
 }

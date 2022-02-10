@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>RathList !</title>
+        <title>TestList !</title>
         <link rel="shortcut icon" type="image/png" href="assets/img/fav.png"/>
         <link rel="stylesheet" href="assets/css/style.css">        
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
-    <body class="box colortheme_0" onload="storageInit(), displayChecklist(), changeList()">
+    <body class="box colortheme_0" onload="storageInit(), displayList_Template(), refreshSideList()">
         <header class="header line">
 
-            <div class="nav_left" style="display: flex; align-items: center;">
+            <div class="nav_left" style="display: flex; align-items: center; cursor: pointer;" onclick="displayList_Template()">
                 <!-- <img src="assets/img/logo.png" height="35px" alt=""> -->
                 <svg id="note_logo" height="30px" style="margin-right: 5px;" style="fill: cyan;"
                     version="1.1"
@@ -91,9 +91,9 @@
                     </g>
                 </svg>
             </div>
-            <div class="nav_right">
-                <div id="add_button" class="buttons" onclick="displayAdd()"><span>+</span></div>
-                <div id="display_button" class="buttons" onclick="displaySwitch()">
+            <div id="nav-right" class="nav_right">
+                <div id="add_button" class="buttons"><span>+</span></div>
+                <div id="display_button" class="buttons" onclick="switchDisplay()">
                     <span><svg width="18px" height="18px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 21a8.985 8.985 0 0 1-1.755-.173 1 1 0 0 1-.791-.813l-.273-1.606a6.933 6.933 0 0 1-1.32-.762l-1.527.566a1 1 0 0 1-1.1-.278 8.977 8.977 0 0 1-1.756-3.041 1 1 0 0 1 .31-1.092l1.254-1.04a6.979 6.979 0 0 1 0-1.524L3.787 10.2a1 1 0 0 1-.31-1.092 8.977 8.977 0 0 1 1.756-3.042 1 1 0 0 1 1.1-.278l1.527.566a6.933 6.933 0 0 1 1.32-.762l.274-1.606a1 1 0 0 1 .791-.813 8.957 8.957 0 0 1 3.51 0 1 1 0 0 1 .791.813l.273 1.606a6.933 6.933 0 0 1 1.32.762l1.527-.566a1 1 0 0 1 1.1.278 8.977 8.977 0 0 1 1.756 3.041 1 1 0 0 1-.31 1.092l-1.254 1.04a6.979 6.979 0 0 1 0 1.524l1.254 1.04a1 1 0 0 1 .31 1.092 8.977 8.977 0 0 1-1.756 3.041 1 1 0 0 1-1.1.278l-1.527-.566a6.933 6.933 0 0 1-1.32.762l-.273 1.606a1 1 0 0 1-.791.813A8.985 8.985 0 0 1 12 21zm-.7-2.035a6.913 6.913 0 0 0 1.393 0l.247-1.451a1 1 0 0 1 .664-.779 4.974 4.974 0 0 0 1.696-.975 1 1 0 0 1 1.008-.186l1.381.512a7.012 7.012 0 0 0 .7-1.206l-1.133-.939a1 1 0 0 1-.343-.964 5.018 5.018 0 0 0 0-1.953 1 1 0 0 1 .343-.964l1.124-.94a7.012 7.012 0 0 0-.7-1.206l-1.38.512a1 1 0 0 1-1-.186 4.974 4.974 0 0 0-1.688-.976 1 1 0 0 1-.664-.779l-.248-1.45a6.913 6.913 0 0 0-1.393 0l-.25 1.45a1 1 0 0 1-.664.779A4.974 4.974 0 0 0 8.7 8.24a1 1 0 0 1-1 .186l-1.385-.512a7.012 7.012 0 0 0-.7 1.206l1.133.939a1 1 0 0 1 .343.964 5.018 5.018 0 0 0 0 1.953 1 1 0 0 1-.343.964l-1.128.94a7.012 7.012 0 0 0 .7 1.206l1.38-.512a1 1 0 0 1 1 .186 4.974 4.974 0 0 0 1.688.976 1 1 0 0 1 .664.779zm.7-3.725a3.24 3.24 0 0 1 0-6.48 3.24 3.24 0 0 1 0 6.48zm0-4.48A1.24 1.24 0 1 0 13.24 12 1.244 1.244 0 0 0 12 10.76z"/>
                     </svg></span>
@@ -109,15 +109,15 @@
                 <div class="side_bar_menu">
 
                     <div class="side_bar_tasklists">
-                        <button type="button" class="deployable_btn" onclick="Display_Hide_List()">
+                        <button type="button" class="deployable_btn" onclick="switchSideList('side_bar_tasklists')">
                             <div><svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="#777777" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg></div>
                             <span class="overflow">All tasklists:</span>
                         </button>
                     </div>
-                    <div id="side_bar_tasklists" class="side_bar_tasklists" style="padding-left: 25px; font-size: 15px; display: block;">
+                    <div id="side_bar_tasklists" class="side_bar_tasklists visible" style="padding-left: 25px; font-size: 15px; display: block;">
                         <div id="lists"></div>
                         <div id="options">
-                            <div class="add_new" onclick="openEdit()">Add a new tasklist...</div>
+                            <div class="add_new" onclick="displayEdit_Template()">Add a new tasklist...</div>
                             <!-- <div class="see_all" onclick="">See all tasklists...</div> -->
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                 <div class="side_bar_menu">
 
                     <div class="side_bar_socials">
-                        <button type="button" class="deployable_btn" onclick="Display_Hide_Links()">
+                        <button type="button" class="deployable_btn" onclick="switchSideList('socials')">
                             <div><svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="#777777" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg></div>
                             <span class="overflow">Follow Me!</span>
                         </button>
@@ -139,31 +139,10 @@
 
             </div>
             <div style="margin-left: 25%; margin-top: 60px; width: 75%;">
-                <div class="main_content">
-                    <h1 id="title" class="title"></h2>
-                    <div id="order_by" class="subtitle">Order by: 
-                        <!-- <a onclick=''>default</a> - -->
-                        <a onclick='orderBy(tasklist[`${current_tl}`], "checked", "desc")'>to do</a> - 
-                        <a onclick='orderBy(tasklist[`${current_tl}`], "checked", "asc")'>done</a> - 
-                        <a onclick='orderBy(tasklist[`${current_tl}`], "name", "asc")'>alphabetical</a> - 
-                        <a onclick='orderBy(tasklist[`${current_tl}`], "name", "desc")'>anti-alphabetical</a>.
-                    </div>
-                    <p id="emptylist"><img src='assets/img/help.png' alt=''></p>
-                    <div id="display_main" class="display_main"></div>
-                    <div id="display_edit" class="updateContainer" style="display: none;"></div>
-                    <div id="display_add" style="display: none;">
-                        <form id="addTask" action="" method="post" onsubmit="addTask(event)">
-                            <div style="display: flex;">
-                                <label class="chbx_container">
-                                    <input type="checkbox" id="addform_checked" name="addform_checked">
-                                    <span class="checkmark"></span>                            
-                                </label>                                
-                                <input type="text" id="addform_txt" name="addform_txt" class="addform_txt small_input_txt" placeholder="Add a new task here" value="">
-                                <input type="submit" id="addform_submit" value="Add Task:">
-                            </div> 
-                        </form>
-                    </div>
-                    <!-- <button onclick="onDownload()">Download</button> -->
+
+
+
+                <div class="main_content displayMode" id="main_content">
 
                     
                 </div>
@@ -172,7 +151,5 @@
         <script type="text/javascript" src="assets/js/script.js"></script>
     </body>
 
-
-    <svg width="15px" height="15px" viewBox="0 0 18 18" style="min-height: 15px;"><g transform="translate(-266, -17)" fill="white" data-darkreader-inline-fill="" style="--darkreader-inline-fill:#b3a48a;"><path d="M280,22.7581818 L279.1564,22 L273.9922,26.506 L273.4414,26.0254545 L273.4444,26.0281818 L268.8562,22.0245455 L268,22.7712727 C269.2678,23.878 272.8084,26.9674545 273.9922,28 C274.8718,27.2330909 274.0144,27.9809091 280,22.7581818"></path></g></svg></div>
-
 </html>
+

@@ -24,7 +24,7 @@ html, body {
 }
 
 /* ----------------------------------- */
-/* -------------- HEADER ------------- */
+/* ------------- NAV BAR ------------- */
 /* ----------------------------------- */
 
 .box .header {
@@ -45,9 +45,34 @@ html, body {
     left: 0;
     position: fixed;
 }
+
 .nav_left {
     display: flex;
     align-items: center;
+}
+.nav_left:hover > #note_logo {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+    
+    @keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%, 60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }
 
 .nav_right {
@@ -56,7 +81,6 @@ html, body {
     align-items: center;
     margin-right: 35px;
 }
-
 .pfp img{
     border-radius: 50%;
     border: solid 2px ;
@@ -69,6 +93,8 @@ html, body {
     border: solid 2px;
     border-color: var(--color-primary);
 }
+
+
 /* ----------------------------------- */
 /* ---------- CUSTOM BUTTONS --------- */
 /* ----------------------------------- */
@@ -167,7 +193,7 @@ input[type=button]:hover, input[type=submit]:hover {
     background-color: green;
     border: 2px solid var(--color-secondary);
 }
-#updateSubmit {
+#editSubmit {
     float: right;
     margin-top: 15px;
 }
@@ -188,15 +214,15 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 .main_content {
     padding: 20px;
+    width: 500px;
 }
-.display_main {
+.displayList_container {
     display: flex;
     flex-direction: column;  
 }
-.display_main div {
+.displayList_container div {
     padding: 0 0 0 25px;
     display: inline-flex;
-    align-items: center;
 }
 #emptylist {
     padding-left: 60px;
@@ -209,8 +235,13 @@ input[type=button]:hover, input[type=submit]:hover {
 }
 .addform_txt {
     margin-left: -1px;
+    width: 400px;
 }
 
+#addform_submit {
+    float: right;
+    margin: 15px 35px 0 0;
+}
 /* ----------------------------------- */
 /* ------------ SIDE BAR ------------- */
 /* ----------------------------------- */
@@ -378,7 +409,7 @@ a:hover {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 .big_input_txt {
-    width: inherit;
+    width: 100%;
     background-color: transparent;
     color: var(--color-secondary);
     border: 0;
@@ -430,9 +461,7 @@ input[type=text]:focus {
 .subtitle {
     font-size: 12px;
     margin-top: -10px; 
-    padding: 0px 35px 20px; 
-    display: flex;
-    justify-content: space-between;
+    padding: 0px 25px 20px; 
 }
 
 .add_new, .see_all {
